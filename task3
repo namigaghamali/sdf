@@ -1,0 +1,32 @@
+#!/bin/sh
+
+. /etc/init.d
+
+[ -f /usr/local/sbin/taskrcextra.sh ] || exit 0
+
+case "$1" in
+
+        start)
+                echo "script xoddandi"
+                /usr/local/sbin/taskrcextra.sh &
+                echo "###################"
+                touch /var/lock/subsys/task3
+                ;;
+        stop)
+                echo -n "scriptin motoru tokdu"
+                killall -q -9 taskrcextra.sh &
+                rm -f /var/lock/subsys/task3
+                ;;
+        status)
+                status task3
+                ;;
+        restart|reload)
+                $0 stop
+                $0 start
+                ;;
+        *)
+                echo "start, stop, restart|reload, status"
+                exit 1
+esac
+exit 0
+
